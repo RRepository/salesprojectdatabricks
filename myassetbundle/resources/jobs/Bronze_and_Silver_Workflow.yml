@@ -1,7 +1,7 @@
 resources:
   jobs:
     Clone_of_dev_rakeshghub_Bronze_and_Silver_Workflow:
-      name: Clone of [dev rakeshghub] Bronze and Silver Workflow
+      name: Bronze and Silver Workflow
       max_concurrent_runs: 4
       tasks:
         - task_key: Bronzeload_ecommerce
