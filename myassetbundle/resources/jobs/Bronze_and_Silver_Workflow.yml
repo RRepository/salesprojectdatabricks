@@ -1,7 +1,8 @@
 resources:
   jobs:
-    Bronze_and_Silver_Workflow:
-      name: Bronze and Silver Workflow
+    Clone_of_dev_rakeshghub_Bronze_and_Silver_Workflow:
+      name: Clone of [dev rakeshghub] Bronze and Silver Workflow
+      max_concurrent_runs: 4
       tasks:
         - task_key: Bronzeload_ecommerce
           notebook_task:
@@ -23,6 +24,12 @@ resources:
             base_parameters:
               modulename: ecommerce
             source: WORKSPACE
+        - task_key: goldsales
+          depends_on:
+            - task_key: silverload_ecommerce
+          notebook_task:
+            notebook_path: ../../src/notebooks/gold/fruitsales.ipynb
+            source: WORKSPACE
         - task_key: silverload_sales
           depends_on:
             - task_key: Bronzeload_sales
@@ -31,6 +38,14 @@ resources:
             base_parameters:
               modulename: sales
             source: WORKSPACE
+        - task_key: goldecommercescd
+          depends_on:
+            - task_key: silverload_sales
+          notebook_task:
+            notebook_path: ../../src/notebooks/gold/productsscd.ipynb
+            source: WORKSPACE
+      tags:
+        dev: rakeshghub
       queue:
         enabled: true
       performance_target: PERFORMANCE_OPTIMIZED
