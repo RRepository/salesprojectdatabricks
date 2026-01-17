@@ -1,0 +1,29 @@
+# Databricks Asset Bundle configuration, more info here: https://docs.databricks.com/en/dev-tools/bundles/settings.html
+bundle:
+  name: "myassetbundle"
+
+include:
+  - resources/*.yml
+  - resources/*/*.yml
+
+targets:
+  # The 'dev' target, for development purposes. This target is the default.
+  dev:
+    mode: development
+    default: true
+    presets:
+     source_linked_deployment: false
+    workspace:
+      host: https://dbc-bdb83ab3-68a7.cloud.databricks.com
+
+  # The 'prod' target, used for production deployment.
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-bdb83ab3-68a7.cloud.databricks.com
+      # We always use /Users/rakeshghub@gmail.com for all resources to make sure we only have a single copy.
+      root_path: /Users/rakeshghub@gmail.com/.bundle/${bundle.name}/${bundle.target}
+    run_as:
+      # This runs as rakeshghub@gmail.com in production. We could also use a service principal here,
+      # see https://docs.databricks.com/dev-tools/bundles/permissions.html.
+      user_name: rakeshghub@gmail.com

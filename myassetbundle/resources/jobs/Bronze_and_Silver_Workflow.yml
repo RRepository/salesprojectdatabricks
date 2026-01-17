@@ -1,0 +1,36 @@
+resources:
+  jobs:
+    Bronze_and_Silver_Workflow:
+      name: Bronze and Silver Workflow
+      tasks:
+        - task_key: Bronzeload_ecommerce
+          notebook_task:
+            notebook_path: ../../src/notebooks/bronze/bronzeorchestrator.ipynb
+            base_parameters:
+              modulename: ecommerce
+            source: WORKSPACE
+        - task_key: Bronzeload_sales
+          notebook_task:
+            notebook_path: ../../src/notebooks/bronze/bronzeorchestrator.ipynb
+            base_parameters:
+              modulename: sales
+            source: WORKSPACE
+        - task_key: silverload_ecommerce
+          depends_on:
+            - task_key: Bronzeload_ecommerce
+          notebook_task:
+            notebook_path: ../../src/notebooks/silver/silverorchestrator.ipynb
+            base_parameters:
+              modulename: ecommerce
+            source: WORKSPACE
+        - task_key: silverload_sales
+          depends_on:
+            - task_key: Bronzeload_sales
+          notebook_task:
+            notebook_path: ../../src/notebooks/silver/silverorchestrator.ipynb
+            base_parameters:
+              modulename: sales
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED
